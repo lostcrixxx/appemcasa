@@ -3,6 +3,7 @@ package br.com.envolvedesenvolve.appemcasa;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -15,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.envolvedesenvolve.appemcasa.databinding.ActivityMainBinding;
+import br.com.envolvedesenvolve.appemcasa.mqtt.MqttConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,14 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        MqttConnection mqttConnection = new MqttConnection();
+        mqttConnection.setConnection(this);
+
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mqttConnection.publishMessage("teste");
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
+
+
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
